@@ -14,7 +14,12 @@
       box-sizing: border-box;
     }
 
+    html {
+      overflow-x: hidden;
+    }
+
     body {
+      position: relative;
       font-family: 'Merriweather Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       background: #fcfbf4;
       color: #10181e;
@@ -23,9 +28,157 @@
       align-items: center;
       justify-content: center;
       padding: 2rem 1.5rem;
+      overflow-x: hidden;
+    }
+
+    .shapes {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .shape {
+      position: absolute;
+      display: block;
+      height: auto;
+      will-change: transform;
+    }
+
+    /* arrière-plan : la moins nette, la plus estompée, bouge le moins */
+    .shape-3 {
+      width: clamp(130px, 18.03vw, 346px);
+      left: 61.46%;
+      top: -7.41%;
+      z-index: 1;
+      opacity: 0.42;
+      filter: blur(1px);
+    }
+
+    /* plan intermédiaire */
+    .shape-1 {
+      width: clamp(64px, 9.05vw, 174px);
+      left: 13.6%;
+      top: 21.2%;
+      z-index: 2;
+      opacity: 0.85;
+    }
+
+    /* premier plan : nette, contrastée, portée par une ombre, bouge le plus */
+    .shape-2 {
+      width: clamp(88px, 12.47vw, 239px);
+      left: 79.84%;
+      top: 56.67%;
+      z-index: 3;
+      filter: drop-shadow(0 12px 20px rgba(16, 24, 30, 0.18));
+    }
+
+    .shape-4 {
+      width: clamp(104px, 14.81vw, 284px);
+      left: 7.86%;
+      top: 83.52%;
+      z-index: 3;
+      filter: drop-shadow(0 14px 24px rgba(16, 24, 30, 0.2));
+    }
+
+    .shape.is-grabbed {
+      filter: drop-shadow(0 18px 28px rgba(16, 24, 30, 0.28));
+    }
+
+    .hand-toggle {
+      position: fixed;
+      left: 24px;
+      bottom: 24px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(16, 24, 30, 0.15);
+      background: rgba(252, 251, 244, 0.9);
+      backdrop-filter: blur(6px);
+      font-family: 'Merriweather Sans', sans-serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 14px;
+      color: #10181e;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(16, 24, 30, 0.08);
+    }
+
+    .hand-toggle:hover {
+      background: rgba(252, 251, 244, 1);
+    }
+
+    .hand-video {
+      display: none;
+    }
+
+    .hand-preview {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 5;
+      width: 176px;
+      height: 132px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid rgba(16, 24, 30, 0.15);
+      box-shadow: 0 10px 24px rgba(16, 24, 30, 0.18);
+      background: #10181e;
+      display: none;
+    }
+
+    .hand-preview.is-active {
+      display: block;
+    }
+
+    .hand-preview canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hand-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      margin: -11px 0 0 -11px;
+      border-radius: 50%;
+      background: rgba(16, 24, 30, 0.35);
+      border: 2px solid rgba(16, 24, 30, 0.5);
+      pointer-events: none;
+      z-index: 4;
+      display: none;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .hand-cursor.is-visible {
+      display: block;
+    }
+
+    .hand-cursor.is-pinching {
+      background: rgba(255, 61, 0, 0.55);
+      border-color: #ff3d00;
+      transform: scale(1.3);
+    }
+
+    @media (max-width: 640px) {
+      .shapes,
+      .hand-toggle,
+      .hand-preview,
+      .hand-cursor {
+        display: none;
+      }
     }
 
     .page {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -137,11 +290,21 @@
 <body>
   <div class="page">
     <div class="hero">
-      <img class="ladder" src="assets/ladder.svg" alt="">
+      <svg class="ladder" width="84.5823" height="122.949" viewBox="0 0 84.5823 122.949" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g id="Group 148">
+          <path d="M7.30624 20.848L41.1614 115.642" stroke="#10181E" stroke-width="14.6085" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M43.4209 7.30624L77.276 102.101" stroke="#10181E" stroke-width="14.6085" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.5911 41.1609L50.1893 27.6189" stroke="#10181E" stroke-width="14.6085" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M25.3611 65.9885L56.9592 52.4465" stroke="#10181E" stroke-width="14.6085" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M34.3897 93.0723L65.9879 79.5303" stroke="#10181E" stroke-width="14.6085" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
       <div class="identity">
         <div class="name-block">
           <h1>Cécile Hugon</h1>
-          <img class="star" src="assets/star.svg" alt="">
+          <svg class="star" width="15.36" height="15.712" viewBox="0 0 15.36 15.712" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5.76 15.712L6.56 10.976L7.136 8.704L5.12 10.176L0.928001 12.832L0 10.816L4.48 8.8L6.752 7.904L4.672 7.008L0.608002 4.832L1.952 2.848L5.6 5.6L7.296 7.072L7.2 4.736L7.328 0H9.632L8.832 4.736L8.256 7.072L10.272 5.6L14.432 2.912L15.36 4.896L10.912 7.008L8.672 7.904L10.688 8.832L14.656 10.944L13.28 12.896L9.728 10.208L8.096 8.704L8.224 10.976L8.128 15.712H5.76Z" fill="#10181E"/>
+          </svg>
           <p class="tagline">Product designer &amp; Product Builder</p>
         </div>
         <div class="contact">
@@ -150,7 +313,249 @@
         </div>
       </div>
     </div>
-    <p class="footer">BESOIN D'UNE FORMATION ? Je partage aussi mon expertise en tant que formatrice en conception d'interface centrée sur l’expérience utilisateur.</p>
+    <p class="footer">BESOIN D'UNE FORMATION ? Je partage aussi mon expertise en tant que formatrice en conception d'interface centrée utilisateur.</p>
   </div>
+
+  <div class="shapes" aria-hidden="true">
+    <svg class="shape shape-1" data-scale="1" width="173.861" height="188.625" viewBox="0 0 173.861 188.625" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_0_20)">
+        <path d="M51.7638 75.5927C78.1077 49.2488 120.82 49.2488 147.164 75.5927C154.658 83.0868 154.658 95.2365 147.164 102.731C139.67 110.225 127.519 110.225 120.025 102.731C108.67 91.3758 90.258 91.3758 78.9025 102.731C67.5473 114.087 67.5478 132.498 78.9031 143.853C86.397 151.348 86.3965 163.498 78.9025 170.992C71.4084 178.486 59.2586 178.486 51.7645 170.992C25.4207 144.648 25.4202 101.937 51.7638 75.5927Z" fill="#10181E" stroke="#10181E" stroke-width="5.74758" stroke-linecap="round"/>
+        <path d="M60.828 51.7645C87.1719 25.4206 129.884 25.4206 156.228 51.7645C163.722 59.2586 163.722 71.4084 156.228 78.9025C148.734 86.3966 136.584 86.397 129.089 78.9032C117.734 67.5477 99.3222 67.5477 87.9667 78.9032C76.6116 90.2587 76.612 108.67 87.9674 120.025C95.4613 127.519 95.4608 139.67 87.9667 147.164C80.4726 154.658 68.3229 154.658 60.8287 147.164C34.485 120.82 34.4845 78.1084 60.828 51.7645Z" fill="#FFFA88" stroke="#10181E" stroke-width="5.74758" stroke-linecap="round"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_0_20"><rect width="173.861" height="188.625" fill="white"/></clipPath>
+      </defs>
+    </svg>
+    <svg class="shape shape-2" data-scale="1.04" width="239.378" height="269.82" viewBox="0 0 239.378 269.82" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <path d="M20.4732 179.886L233.105 139.139L147.162 265.828L20.4732 179.886Z" fill="black" stroke="black" stroke-width="5.74758"/>
+        <path d="M7.35517 136.326L219.986 95.5785L134.044 222.268L7.35517 136.326Z" fill="#00FEC1" stroke="black" stroke-width="5.74758"/>
+      </g>
+    </svg>
+    <svg class="shape shape-3" data-scale="0.94" width="346.246" height="259.551" viewBox="0 0 346.246 259.551" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_0_23)">
+        <path d="M103.105 79.0951L34.3667 95.9005L29.1841 74.8676L118.964 52.9177L135.894 121.625L204.632 104.82L221.562 173.527L290.3 156.722L312.412 246.462L291.37 251.607L274.44 182.899L205.702 199.705L188.772 130.997L120.034 147.803L103.105 79.0951Z" fill="#10181E" stroke="#10181E" stroke-width="5.74758"/>
+        <path d="M81.8505 60.0727L13.1124 76.878L7.92985 55.8451L97.7101 33.8953L114.64 102.603L183.378 85.7974L200.308 154.505L269.046 137.699L291.158 227.44L270.116 232.584L253.186 163.877L184.448 180.682L167.518 111.975L98.7802 128.78L81.8505 60.0727Z" fill="#7D756E" stroke="#10181E" stroke-width="5.74758"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_0_23"><rect width="346.246" height="259.551" fill="white"/></clipPath>
+      </defs>
+    </svg>
+    <svg class="shape shape-4" data-scale="1.06" width="284.438" height="234" viewBox="0 0 284.438 234" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_0_4)">
+        <g>
+          <mask id="path-1-inside-1_0_4" fill="white">
+            <path d="M182.675 30.4759C238.877 30.4759 284.438 76.0362 284.438 132.238C284.438 188.439 238.877 234 182.675 234C126.474 234 80.9136 188.439 80.9136 132.238C80.9137 76.0363 126.474 30.4761 182.675 30.4759ZM182.676 102.964C166.509 102.964 153.403 116.071 153.403 132.239C153.403 148.406 166.509 161.512 182.676 161.512C198.844 161.512 211.95 148.406 211.951 132.239C211.951 116.071 198.844 102.964 182.676 102.964Z"/>
+          </mask>
+          <path d="M182.675 30.4759C238.877 30.4759 284.438 76.0362 284.438 132.238C284.438 188.439 238.877 234 182.675 234C126.474 234 80.9136 188.439 80.9136 132.238C80.9137 76.0363 126.474 30.4761 182.675 30.4759ZM182.676 102.964C166.509 102.964 153.403 116.071 153.403 132.239C153.403 148.406 166.509 161.512 182.676 161.512C198.844 161.512 211.95 148.406 211.951 132.239C211.951 116.071 198.844 102.964 182.676 102.964Z" fill="black"/>
+          <path d="M182.675 30.4759V20.7144H182.675L182.675 30.4759ZM284.438 132.238H294.2V132.238L284.438 132.238ZM182.675 234L182.675 243.762H182.675V234ZM80.9136 132.238L71.152 132.238V132.238H80.9136ZM182.676 102.964V93.2026L182.676 93.2027L182.676 102.964ZM153.403 132.239H143.641L143.641 132.239L153.403 132.239ZM182.676 161.512L182.676 171.274H182.676V161.512ZM211.951 132.239L221.712 132.239V132.239H211.951ZM182.675 30.4759V40.2375C233.486 40.2375 274.676 81.4275 274.676 132.238L284.438 132.238L294.2 132.238C294.199 70.6449 244.268 20.7144 182.675 20.7144V30.4759ZM284.438 132.238H274.676C274.676 183.048 233.486 224.239 182.675 224.239V234V243.762C244.268 243.762 294.2 193.83 294.2 132.238H284.438ZM182.675 234L182.675 224.239C131.865 224.239 90.6752 183.048 90.6752 132.238H80.9136H71.152C71.152 193.83 121.083 243.762 182.675 243.762L182.675 234ZM80.9136 132.238L90.6752 132.238C90.6753 81.4274 131.865 40.2376 182.675 40.2375L182.675 30.4759L182.675 20.7144C121.083 20.7145 71.1522 70.6451 71.152 132.238L80.9136 132.238ZM182.676 102.964L182.676 93.2027C161.117 93.2029 143.641 110.68 143.641 132.239H153.403H163.164C163.164 121.462 171.9 112.726 182.676 112.726L182.676 102.964ZM153.403 132.239L143.641 132.239C143.642 153.797 161.118 171.273 182.676 171.274L182.676 161.512L182.676 151.751C171.9 151.75 163.165 143.015 163.164 132.238L153.403 132.239ZM182.676 161.512V171.274C204.235 171.274 221.712 153.797 221.712 132.239L211.951 132.239L202.189 132.238C202.189 143.015 193.453 151.751 182.676 151.751V161.512ZM211.951 132.239H221.712C221.712 110.68 204.235 93.2027 182.676 93.2027V102.964V112.726C193.453 112.726 202.189 121.462 202.189 132.239H211.951Z" fill="black" mask="url(#path-1-inside-1_0_4)"/>
+        </g>
+        <g>
+          <mask id="path-3-inside-2_0_4" fill="white">
+            <path d="M101.762 0C157.963 0 203.524 45.5603 203.524 101.762C203.524 157.963 157.963 203.524 101.762 203.524C45.5603 203.524 0 157.963 0 101.762C0.000131945 45.5603 45.5603 0.000131961 101.762 0ZM101.762 72.4883C85.5942 72.4883 72.4875 85.5943 72.4873 101.762C72.4873 117.929 85.5941 131.036 101.762 131.036C117.929 131.036 131.035 117.929 131.035 101.762C131.035 85.5944 117.929 72.4884 101.762 72.4883Z"/>
+          </mask>
+          <path d="M101.762 0C157.963 0 203.524 45.5603 203.524 101.762C203.524 157.963 157.963 203.524 101.762 203.524C45.5603 203.524 0 157.963 0 101.762C0.000131945 45.5603 45.5603 0.000131961 101.762 0ZM101.762 72.4883C85.5942 72.4883 72.4875 85.5943 72.4873 101.762C72.4873 117.929 85.5941 131.036 101.762 131.036C117.929 131.036 131.035 117.929 131.035 101.762C131.035 85.5944 117.929 72.4884 101.762 72.4883Z" fill="#FF3D00"/>
+          <path d="M101.762 0V-9.76157H101.762L101.762 0ZM203.524 101.762H213.286V101.762L203.524 101.762ZM101.762 203.524L101.762 213.286H101.762V203.524ZM0 101.762L-9.76157 101.762V101.762H0ZM101.762 72.4883L101.762 62.7267H101.762V72.4883ZM72.4873 101.762L62.7257 101.762V101.762H72.4873ZM101.762 131.036V140.798H101.762L101.762 131.036ZM131.035 101.762H140.797V101.762L131.035 101.762ZM101.762 0V9.76157C152.572 9.76157 193.763 50.9515 193.763 101.762L203.524 101.762L213.286 101.762C213.286 40.169 163.354 -9.76157 101.762 -9.76157V0ZM203.524 101.762H193.763C193.763 152.572 152.572 193.763 101.762 193.763V203.524V213.286C163.354 213.286 213.286 163.354 213.286 101.762H203.524ZM101.762 203.524L101.762 193.763C50.9515 193.763 9.76157 152.572 9.76157 101.762H0H-9.76157C-9.76157 163.354 40.169 213.286 101.762 213.286L101.762 203.524ZM0 101.762L9.76157 101.762C9.76169 50.9515 50.9515 9.76169 101.762 9.76157L101.762 0L101.762 -9.76157C40.1692 -9.76142 -9.76142 40.1692 -9.76157 101.762L0 101.762ZM101.762 72.4883V62.7267C80.2034 62.7267 62.726 80.2028 62.7257 101.762L72.4873 101.762L82.2489 101.762C82.249 90.9858 90.9851 82.2498 101.762 82.2498V72.4883ZM72.4873 101.762H62.7257C62.7257 123.32 80.203 140.798 101.762 140.798V131.036V121.275C90.9853 121.275 82.2489 112.538 82.2489 101.762H72.4873ZM101.762 131.036L101.762 140.798C123.321 140.798 140.797 123.32 140.797 101.762H131.035H121.274C121.274 112.538 112.538 121.274 101.762 121.275L101.762 131.036ZM131.035 101.762L140.797 101.762C140.796 80.2032 123.32 62.7268 101.762 62.7267L101.762 72.4883L101.762 82.2498C112.538 82.2499 121.273 90.9855 121.274 101.762L131.035 101.762Z" fill="black" mask="url(#path-3-inside-2_0_4)"/>
+        </g>
+      </g>
+      <defs>
+        <clipPath id="clip0_0_4"><rect width="284.438" height="234" fill="white"/></clipPath>
+      </defs>
+    </svg>
+  </div>
+
+  <button type="button" class="hand-toggle" id="handToggle">🖐️ Bouger les formes à la main</button>
+  <div class="hand-preview" id="handPreview">
+    <canvas id="handCanvas" width="176" height="132"></canvas>
+  </div>
+  <video class="hand-video" id="handVideo" playsinline></video>
+  <div class="hand-cursor" id="handCursor" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      var shapes = Array.prototype.slice.call(document.querySelectorAll('.shape'));
+      if (!shapes.length) return;
+
+      var toggle = document.getElementById('handToggle');
+      var preview = document.getElementById('handPreview');
+      var video = document.getElementById('handVideo');
+      var canvas = document.getElementById('handCanvas');
+      var ctx = canvas.getContext('2d');
+      var cursor = document.getElementById('handCursor');
+
+      var shapeState = new Map();
+      shapes.forEach(function (el) {
+        shapeState.set(el, { x: 0, y: 0 });
+      });
+
+      var hands = null;
+      var stream = null;
+      var rafId = null;
+      var active = false;
+      var scriptsLoaded = false;
+
+      var grabbedShape = null;
+      var grabStart = null;
+      var pinching = false;
+
+      function applyTransform(el) {
+        var state = shapeState.get(el);
+        var scale = parseFloat(el.dataset.scale) || 1;
+        el.style.transform = 'translate(' + state.x.toFixed(1) + 'px, ' + state.y.toFixed(1) + 'px) scale(' + scale + ')';
+      }
+
+      function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.crossOrigin = 'anonymous';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+
+      function releaseGrab() {
+        if (grabbedShape) {
+          grabbedShape.classList.remove('is-grabbed');
+        }
+        grabbedShape = null;
+        grabStart = null;
+      }
+
+      function onResults(results) {
+        canvas.width = canvas.width; // clear
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(results.image, -canvas.width, 0, canvas.width, canvas.height);
+        ctx.restore();
+
+        var landmarks = results.multiHandLandmarks && results.multiHandLandmarks[0];
+        if (!landmarks) {
+          cursor.classList.remove('is-visible');
+          pinching = false;
+          releaseGrab();
+          return;
+        }
+
+        var indexTip = landmarks[8];
+        var thumbTip = landmarks[4];
+        var vw = video.videoWidth || 640;
+        var vh = video.videoHeight || 480;
+
+        var dx = (thumbTip.x - indexTip.x) * vw;
+        var dy = (thumbTip.y - indexTip.y) * vh;
+        var pinchDist = Math.hypot(dx, dy);
+
+        if (!pinching && pinchDist < 42) pinching = true;
+        else if (pinching && pinchDist > 58) pinching = false;
+
+        var pageX = (1 - indexTip.x) * window.innerWidth;
+        var pageY = indexTip.y * window.innerHeight;
+
+        cursor.classList.add('is-visible');
+        cursor.classList.toggle('is-pinching', pinching);
+        cursor.style.transform = 'translate(' + pageX.toFixed(1) + 'px, ' + pageY.toFixed(1) + 'px)';
+
+        if (pinching) {
+          if (!grabbedShape) {
+            var nearest = null;
+            var minDist = Infinity;
+            shapes.forEach(function (el) {
+              var rect = el.getBoundingClientRect();
+              var cx = rect.left + rect.width / 2;
+              var cy = rect.top + rect.height / 2;
+              var d = Math.hypot(cx - pageX, cy - pageY);
+              var pickRadius = Math.max(rect.width, rect.height) / 2 + 40;
+              if (d < pickRadius && d < minDist) {
+                minDist = d;
+                nearest = el;
+              }
+            });
+            if (nearest) {
+              grabbedShape = nearest;
+              grabbedShape.classList.add('is-grabbed');
+              var state = shapeState.get(nearest);
+              grabStart = { fx: pageX, fy: pageY, sx: state.x, sy: state.y };
+            }
+          } else {
+            var st = shapeState.get(grabbedShape);
+            st.x = grabStart.sx + (pageX - grabStart.fx);
+            st.y = grabStart.sy + (pageY - grabStart.fy);
+            applyTransform(grabbedShape);
+          }
+        } else {
+          releaseGrab();
+        }
+      }
+
+      function setButtonState(isActive, label) {
+        toggle.textContent = label || (isActive ? '🖐️ Désactiver la caméra' : '🖐️ Bouger les formes à la main');
+      }
+
+      async function frameLoop() {
+        if (!active) return;
+        await hands.send({ image: video });
+        rafId = requestAnimationFrame(frameLoop);
+      }
+
+      async function start() {
+        setButtonState(false, '🖐️ Activation…');
+        try {
+          if (!scriptsLoaded) {
+            await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js');
+            scriptsLoaded = true;
+          }
+
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user', width: 480, height: 360 },
+            audio: false
+          });
+          video.srcObject = stream;
+          await video.play();
+
+          hands = new window.Hands({
+            locateFile: function (file) {
+              return 'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/' + file;
+            }
+          });
+          hands.setOptions({
+            maxNumHands: 1,
+            modelComplexity: 1,
+            minDetectionConfidence: 0.6,
+            minTrackingConfidence: 0.5
+          });
+          hands.onResults(onResults);
+
+          active = true;
+          preview.classList.add('is-active');
+          setButtonState(true);
+          frameLoop();
+        } catch (err) {
+          console.error('Suivi de la main indisponible :', err);
+          if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+          setButtonState(false, '🖐️ Caméra refusée');
+          setTimeout(function () { setButtonState(false); }, 2500);
+        }
+      }
+
+      function stop() {
+        active = false;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        releaseGrab();
+        pinching = false;
+        cursor.classList.remove('is-visible', 'is-pinching');
+        preview.classList.remove('is-active');
+        if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+        video.srcObject = null;
+        if (hands) { hands.close(); hands = null; }
+        setButtonState(false);
+      }
+
+      toggle.addEventListener('click', function () {
+        if (active) stop(); else start();
+      });
+    })();
+  </script>
 </body>
 </html>
