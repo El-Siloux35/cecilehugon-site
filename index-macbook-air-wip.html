@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cécile Hugon — UX Lead & Trainer</title>
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --gray: #666;
+      --light: #f5f5f2;
+      --border: #e0e0e0;
+      --accent: #111;
+      --font: 'Georgia', serif;
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: #fff;
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    /* ── Sections ── */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .section-inner {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      background: #fff;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .hero-portrait {
+      width: 80px;
+      height: 80px;
+    }
+
+    .hero-title {
+      font-family: var(--font);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gray);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--gray);
+      max-width: 480px;
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--gray);
+    }
+
+    .scroll-hint {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #bbb;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* ── Quiz card ── */
+    .bc-quiz {
+      background: var(--light);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: default;
+    }
+
+    .bc-quiz .quiz-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+    }
+
+    .bc-quiz .quiz-q {
+      font-family: var(--font);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--black);
+      flex: 1;
+      padding: 0.5rem 0;
+    }
+
+    .bc-quiz .quiz-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .bc-quiz .qopt {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-sans);
+      transition: all 0.15s;
+    }
+
+    .bc-quiz .qopt:hover { border-color: var(--black); }
+    .bc-quiz .qopt.correct { border-color: #2d6a4f; background: #d8f3dc; color: #1b4332; }
+    .bc-quiz .qopt.wrong { border-color: #e63946; background: #fde8e8; color: #9b1c1c; }
+    .bc-quiz .qopt:disabled { cursor: default; }
+
+    .bc-quiz .quiz-answer {
+      display: none;
+      font-size: 0.72rem;
+      color: var(--gray);
+      line-height: 1.4;
+      margin-top: 0.5rem;
+      border-left: 2px solid var(--black);
+      padding-left: 0.5rem;
+    }
+
+    .bc-quiz .quiz-answer.show { display: block; }
+
+    /* ── UX Fail ── */
+    .ux-fail-section {
+      min-height: auto;
+      padding: 5rem 2rem;
+      background: #fff;
+    }
+
+    .ux-fail-section .section-inner {
+      max-width: 720px;
+    }
+
+    .ux-fail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .ux-fails-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .ux-fail-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: var(--light);
+      transition: transform 0.2s;
+    }
+
+    .ux-fail-card:hover { transform: translateY(-2px); }
+
+    .ux-fail-demo {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .ux-fail-text {
+      font-size: 0.875rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    .ux-fail-source {
+      font-size: 0.75rem;
+      color: #bbb;
+      margin-top: 0.5rem;
+    }
+
+    /* Slider fail demo */
+    .fail-slider-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .fail-slider {
+      flex: 1;
+      height: 4px;
+      padding: 0;
+      cursor: pointer;
+      accent-color: var(--black);
+    }
+
+    /* Tiny hitbox wrapper — le vrai bug */
+    .fail-slider-hitbox {
+      display: inline-block;
+      padding: 2px 0; /* zone hover minuscule */
+      overflow: hidden;
+    }
+
+    /* Contrast fail demo */
+    .fail-contrast {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    /* Moving button demo */
+    .fail-button {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: transform 0.1s;
+    }
+
+    .fail-button:hover {
+      transform: translate(30px, -20px);
+    }
+
+    /* ── Portfolio ── */
+    #portfolio {
+      background: var(--light);
+    }
+
+    .portfolio-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .portfolio-intro {
+      font-family: var(--font);
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-weight: 400;
+      line-height: 1.4;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+
+    .portfolio-cases {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--border);
+    }
+
+    .portfolio-case {
+      background: #fff;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: background 0.15s;
+      cursor: default;
+    }
+
+    .portfolio-case:hover { background: var(--light); }
+
+    .portfolio-case-num {
+      font-size: 0.75rem;
+      color: #bbb;
+      font-family: monospace;
+      padding-top: 0.2rem;
+      min-width: 2rem;
+    }
+
+    .portfolio-case-content { flex: 1; }
+
+    .portfolio-case-title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+
+    .portfolio-case-desc {
+      font-size: 0.875rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    .portfolio-case-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .portfolio-case-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--gray);
+    }
+
+    .portfolio-case-img {
+      width: 80px;
+      height: 60px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--black);
+      color: #fff;
+    }
+
+    #contact .section-inner {
+      max-width: 600px;
+    }
+
+    .contact-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .contact-question {
+      font-family: var(--font);
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 2rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-field {
+      width: 100%;
+      padding: 1rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: var(--font-sans);
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color 0.2s;
+    }
+
+    .contact-field::placeholder { color: #555; }
+    .contact-field:focus { outline: none; border-color: #666; }
+
+    .contact-submit {
+      align-self: flex-start;
+      padding: 0.875rem 2rem;
+      background: #fff;
+      color: var(--black);
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .contact-submit:hover { opacity: 0.85; }
+
+    .contact-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      align-items: center;
+    }
+
+    .contact-links a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .contact-links a:hover { color: #fff; }
+
+    .contact-links img {
+      width: 16px;
+      height: 16px;
+      filter: invert(1) brightness(0.5);
+    }
+
+    .contact-links a:hover img { filter: invert(1); }
+
+    /* ── Bento ── */
+    #bento {
+      min-height: auto;
+      padding: 2rem 2rem 5rem;
+      background: #fff;
+      align-items: flex-start;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 160px;
+      gap: 12px;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .bento-card {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .bento-card:hover { transform: scale(1.01); }
+
+    /* Tailles */
+    .bento-wide  { grid-column: span 2; }
+    .bento-tall  { grid-row: span 2; }
+    .bento-big   { grid-column: span 2; grid-row: span 2; }
+
+    /* Styles de cartes */
+    .bc-intro {
+      background: var(--black);
+      color: #fff;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .bc-intro h2 {
+      font-family: var(--font);
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .bc-intro p { font-size: 0.8rem; color: #888; }
+
+    .bc-portrait {
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .bc-portrait img { width: 85%; height: 100%; object-fit: cover; object-position: top; }
+
+    .bc-stat {
+      background: var(--light);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bc-stat .big-num {
+      font-family: var(--font);
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .bc-stat .label {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 0.4rem;
+    }
+
+    .bc-fail {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bc-fail .fail-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e63946;
+      font-weight: 600;
+    }
+
+    .bc-fail p {
+      font-size: 0.85rem;
+      color: var(--gray);
+      line-height: 1.5;
+      flex: 1;
+      padding: 0.5rem 0;
+    }
+
+    .bc-fail .source {
+      font-size: 0.7rem;
+      color: #bbb;
+    }
+
+    .bc-quote {
+      background: #f0f0eb;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .bc-quote blockquote {
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--black);
+    }
+
+    .bc-quote cite {
+      display: block;
+      font-size: 0.75rem;
+      font-style: normal;
+      color: var(--gray);
+      margin-top: 0.75rem;
+    }
+
+    .bc-malt {
+      background: #ff6b35;
+      color: #fff;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bc-malt .malt-rating {
+      font-family: var(--font);
+      font-size: 2.5rem;
+      font-weight: 400;
+    }
+
+    .bc-malt .malt-label { font-size: 0.75rem; opacity: 0.8; }
+
+    .bc-reading {
+      background: var(--light);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bc-reading .reading-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+    }
+
+    .bc-reading .reading-title {
+      font-family: var(--font);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .bc-reading .reading-author { font-size: 0.75rem; color: var(--gray); }
+
+    .bc-location {
+      background: #d8f3dc;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .bc-location .loc-emoji { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .bc-location .loc-name { font-size: 0.9rem; font-weight: 500; }
+    .bc-location .loc-sub { font-size: 0.75rem; color: #2d6a4f; }
+
+    .bc-img {
+      overflow: hidden;
+    }
+
+    .bc-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+
+    .bc-img:hover img { transform: scale(1.04); }
+
+    .bc-img .img-label {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+
+    .bc-wip {
+      background: #111;
+      border: 1px dashed #444;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .bc-wip .wip-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+    }
+
+    .bc-wip p { font-size: 0.85rem; color: #aaa; line-height: 1.5; }
+
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); }
+      .bento-wide { grid-column: span 2; }
+      .bento-big { grid-column: span 2; }
+    }
+
+    @media (max-width: 580px) {
+      .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+      .bento-wide, .bento-tall, .bento-big { grid-column: span 1; grid-row: span 1; }
+      .bento-card { min-height: 140px; }
+    }
+
+    /* ── Scroll animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 5rem 1.25rem 3rem; }
+      .portfolio-case-img { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero" class="nav-logo">Cécile Hugon</a>
+    <ul class="nav-links">
+      <li><a href="#portfolio">Travaux</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="section-inner hero-content">
+      <img src="assets/portrait.svg" alt="Portrait Cécile Hugon" class="hero-portrait reveal">
+      <h1 class="hero-title reveal">
+        Je trouve ce que vos utilisateurs<br>
+        <em>ne signalent pas.</em>
+      </h1>
+      <p class="hero-sub reveal">
+        Depuis 15 ans j'audite des produits complexes et je forme les équipes
+        à travailler autrement. En ce moment, avec l'IA.
+      </p>
+      <div class="hero-tags reveal">
+        <span class="tag">Audit UX</span>
+        <span class="tag">Formation</span>
+        <span class="tag">Produits complexes</span>
+        <span class="tag">15 ans d'expertise</span>
+      </div>
+      <div class="scroll-hint reveal">↓ Continuez</div>
+    </div>
+  </section>
+
+  <!-- Bento -->
+  <section id="bento">
+    <div class="bento-grid">
+
+      <!-- Intro — grande carte noire -->
+      <div class="bento-card bento-big bc-intro reveal">
+        <h2>Je trouve ce que vos utilisateurs ne signalent pas.</h2>
+        <p>Audit · Formation · 15 ans</p>
+      </div>
+
+      <!-- Portrait -->
+      <div class="bento-card bento-tall bc-portrait reveal">
+        <img src="assets/portrait.svg" alt="Cécile Hugon">
+      </div>
+
+      <!-- Stat 15 ans -->
+      <div class="bento-card bc-stat reveal">
+        <span class="big-num">15</span>
+        <span class="label">ans de UX</span>
+      </div>
+
+      <!-- Location -->
+      <div class="bento-card bc-location reveal">
+        <span class="loc-emoji">🌊</span>
+        <span class="loc-name">Bretagne</span>
+        <span class="loc-sub">Paris quand il le faut</span>
+      </div>
+
+      <!-- UX Fail -->
+      <div class="bento-card bento-wide bc-fail reveal">
+        <span class="fail-tag">UX Fail</span>
+        <p>Ce slider de volume disparaît quand on essaie de l'attraper. Zone de hover : 4px. Personne ne l'a signalé.</p>
+        <span class="source">— App de streaming, 2024</span>
+      </div>
+
+      <!-- Lecture en cours -->
+      <div class="bento-card bc-reading reveal">
+        <span class="reading-tag">En ce moment</span>
+        <span class="reading-title">The Design of Everyday Things</span>
+        <span class="reading-author">Don Norman</span>
+      </div>
+
+      <!-- Malt -->
+      <div class="bento-card bc-malt reveal">
+        <span class="malt-label">Malt</span>
+        <span class="malt-rating">★ 4.9</span>
+      </div>
+
+      <!-- Projet image -->
+      <div class="bento-card bento-wide bc-img reveal">
+        <img src="assets/projet-adramar.jpg" alt="Projet Adramar">
+        <span class="img-label">Adramar — interface de gestion</span>
+      </div>
+
+      <!-- Citation -->
+      <div class="bento-card bento-wide bc-quote reveal">
+        <blockquote>
+          "Les utilisateurs ne lisent pas. Ils scannent, devinent, et abandonnent."
+          <cite>— Ce que j'explique en formation depuis 10 ans</cite>
+        </blockquote>
+      </div>
+
+      <!-- Quiz card -->
+      <div class="bento-card bento-wide bc-quiz reveal">
+        <span class="quiz-tag">Mini test</span>
+        <p class="quiz-q">Un formulaire passe de 4 à 3 champs. Que se passe-t-il ?</p>
+        <div class="quiz-opts">
+          <button class="qopt" data-correct="false">Rien de notable</button>
+          <button class="qopt" data-correct="false">+10% de conversions</button>
+          <button class="qopt" data-correct="true">+50% de conversions</button>
+        </div>
+        <p class="quiz-answer">Supprimer un seul champ peut doubler les conversions. La charge cognitive est sous-estimée à chaque réunion de spec.</p>
+      </div>
+
+      <!-- WIP ce site -->
+      <div class="bento-card bc-wip reveal">
+        <span class="wip-tag">En cours</span>
+        <p>Ce site est construit en direct avec l'IA. Process ouvert.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- UX Fails -->
+  <div class="ux-fail-section">
+    <div class="section-inner">
+      <p class="ux-fail-label reveal">Ce que je vois au quotidien</p>
+      <div class="ux-fails-grid">
+
+        <div class="ux-fail-card reveal">
+          <div class="ux-fail-demo">
+            <div class="fail-slider-wrap">
+              <span>🔇</span>
+              <div class="fail-slider-hitbox">
+                <input type="range" class="fail-slider" min="0" max="100" value="60">
+              </div>
+              <span>🔊</span>
+            </div>
+          </div>
+          <p class="ux-fail-text">Ce slider disparaît quand on essaie de l'attraper. Zone de hover : 4px.</p>
+          <p class="ux-fail-source">— Observé sur une app de streaming</p>
+        </div>
+
+        <div class="ux-fail-card reveal">
+          <div class="ux-fail-demo">
+            <p class="fail-contrast">Votre mot de passe doit contenir<br>au moins 12 caractères.</p>
+          </div>
+          <p class="ux-fail-text">Cette information apparaît après la soumission du formulaire. Pas avant.</p>
+          <p class="ux-fail-source">— Formulaire d'inscription, banque en ligne</p>
+        </div>
+
+        <div class="ux-fail-card reveal">
+          <div class="ux-fail-demo">
+            <button class="fail-button">Supprimer le compte</button>
+          </div>
+          <p class="ux-fail-text">Essayez de cliquer sur ce bouton. Il se déplace. Quelqu'un a trouvé ça malin.</p>
+          <p class="ux-fail-source">— Anti-pattern "confirmshaming"</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="section-inner">
+      <p class="portfolio-label reveal">Travaux</p>
+      <p class="portfolio-intro reveal">
+        Des produits que personne ne voit<br>mais que tout le monde utilise.
+      </p>
+      <div class="portfolio-cases reveal">
+
+        <div class="portfolio-case">
+          <span class="portfolio-case-num">01</span>
+          <div class="portfolio-case-content">
+            <p class="portfolio-case-title">Refonte onboarding — SaaS B2B</p>
+            <p class="portfolio-case-desc">Audit de l'expérience d'activation. 3 points de friction identifiés. Taux de complétion +40% en 6 semaines.</p>
+            <div class="portfolio-case-tags">
+              <span class="portfolio-case-tag">Audit</span>
+              <span class="portfolio-case-tag">Research</span>
+              <span class="portfolio-case-tag">B2B</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-case">
+          <span class="portfolio-case-num">02</span>
+          <div class="portfolio-case-content">
+            <p class="portfolio-case-title">Formation équipe produit — 12 personnes</p>
+            <p class="portfolio-case-desc">Atelier sur les nouveaux process de travail avec l'IA. De la veille à la production. 2 jours, Paris.</p>
+            <div class="portfolio-case-tags">
+              <span class="portfolio-case-tag">Formation</span>
+              <span class="portfolio-case-tag">IA</span>
+              <span class="portfolio-case-tag">Process</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-case">
+          <span class="portfolio-case-num">03</span>
+          <div class="portfolio-case-content">
+            <p class="portfolio-case-title">Adramar — interface de gestion</p>
+            <p class="portfolio-case-desc">Refonte d'un outil interne complexe. Architecture de l'information, design système, tests utilisateurs.</p>
+            <div class="portfolio-case-tags">
+              <span class="portfolio-case-tag">UX Design</span>
+              <span class="portfolio-case-tag">Design système</span>
+            </div>
+          </div>
+          <img src="assets/projet-adramar.jpg" alt="Projet Adramar" class="portfolio-case-img">
+        </div>
+
+        <div class="portfolio-case">
+          <span class="portfolio-case-num">04</span>
+          <div class="portfolio-case-content">
+            <p class="portfolio-case-title">Ce site — construit avec l'IA</p>
+            <p class="portfolio-case-desc">De la récupération du site piraté au déploiement, tout s'est fait en conversation avec Claude. Process documenté.</p>
+            <div class="portfolio-case-tags">
+              <span class="portfolio-case-tag">IA</span>
+              <span class="portfolio-case-tag">Process</span>
+              <span class="portfolio-case-tag">Meta</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="contact-label">Travaillons ensemble</p>
+      <h2 class="contact-question">Quel est votre vrai problème ?</h2>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <textarea
+          class="contact-field"
+          placeholder="Décrivez votre situation — pas besoin d'être précis, on clarifie ensemble."
+        ></textarea>
+        <button type="submit" class="contact-submit">Envoyer →</button>
+      </form>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/cecilehugon" target="_blank">
+          <img src="assets/linkedin.svg" alt="LinkedIn"> LinkedIn
+        </a>
+        <a href="https://www.malt.fr/profile/cecilehugon" target="_blank">
+          <img src="assets/malt.svg" alt="Malt"> Malt
+        </a>
+        <a href="mailto:hugon.cecile@gmail.com">hugon.cecile@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ── Quiz card ──
+    document.querySelectorAll('.bc-quiz .qopt').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = this.closest('.bc-quiz');
+        card.querySelectorAll('.qopt').forEach(o => {
+          o.disabled = true;
+          o.classList.add(o.dataset.correct === 'true' ? 'correct' : 'wrong');
+        });
+        card.querySelector('.quiz-answer').classList.add('show');
+      });
+    });
+
+    // ── Scroll reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // ── Contact ──
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.contact-submit');
+      btn.textContent = 'Message envoyé ✓';
+      btn.style.background = '#2d6a4f';
+      btn.style.color = '#fff';
+      btn.disabled = true;
+    }
+  </script>
+
+</body>
+</html>
